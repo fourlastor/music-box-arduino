@@ -227,16 +227,16 @@ const unsigned short secondMelody[] PROGMEM = {
 };
 
 unsigned int mainVoiceIndex = 0;
-unsigned int mainVoiceSchedule = 0;
+unsigned long mainVoiceSchedule = 0;
 const int mainMelodyLength = sizeof(mainMelody)/sizeof(mainMelody[0]);
 
 unsigned int secondVoiceIndex = 0;
-unsigned int secondVoiceSchedule = 0;
+unsigned long secondVoiceSchedule = 0;
 const int secondMelodyLength = sizeof(secondMelody)/sizeof(secondMelody[0]);
 
 void loop()
 {
-  unsigned int now = millis();
+  unsigned long now = millis();
   playMelody(
     now, mainVoice, mainVoiceSchedule, mainVoiceIndex, mainMelody, mainMelodyLength
   );
@@ -246,9 +246,9 @@ void loop()
 }
 
 void playMelody(
-  unsigned int now,
+  unsigned long now,
   Tone &voice,
-  unsigned int &schedule,
+  unsigned long &schedule,
   unsigned int &currentIndex,
   const unsigned short melody[],
   unsigned int melodyLenght
@@ -276,5 +276,5 @@ float playNote(Tone &voice, unsigned short note, unsigned short length, unsigned
     voice.play(note, noteDuration);
   }
 
-  return noteDuration * 1.5;
+  return noteDuration * 1.35;
 }
