@@ -1,15 +1,21 @@
-#include <Tone.h>
+#include "MultiTone.h"
 
-#define MAIN_VOICE_PIN 3
-#define SECOND_VOICE_PIN 5
+#if defined(ESP8266)
+#define MAIN_VOICE_PIN 5
+#define SECOND_VOICE_PIN 9
+#else
+#define MAIN_VOICE_PIN 14 // 5 on board
+#define SECOND_VOICE_PIN 5 // 1 on board
+#endif
+
 #define BREAK 0
 
-Tone mainVoice;
-Tone secondVoice;
+MultiTone mainVoice = MultiTone(MAIN_VOICE_PIN);
+MultiTone secondVoice = MultiTone(SECOND_VOICE_PIN);
 
 void setup() {
-  mainVoice.begin(MAIN_VOICE_PIN);
-  secondVoice.begin(SECOND_VOICE_PIN);
+  mainVoice.begin();
+  secondVoice.begin();
 }
 
 const unsigned short mainMelody[] PROGMEM = {
@@ -247,7 +253,7 @@ void loop()
 
 void playMelody(
   unsigned long now,
-  Tone &voice,
+  MultiTone &voice,
   unsigned long &schedule,
   unsigned int &currentIndex,
   const unsigned short melody[],
@@ -268,13 +274,13 @@ void playMelody(
   }
 }
 
-float playNote(Tone &voice, unsigned short note, unsigned short length, unsigned short fraction)
+float playNote(MultiTone &voice, unsigned short note, unsigned short length, unsigned short fraction)
 {
-  float noteDuration = 900 * length / fraction;
+  float noteDuration = 950 * length / fraction;
   if (note != BREAK)
   {
     voice.play(note, noteDuration);
   }
 
-  return noteDuration * 1.35;
+  return noteDuration * 1.5;
 }
