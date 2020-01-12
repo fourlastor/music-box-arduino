@@ -1,0 +1,5 @@
+{
+    "port": "/dev/cu.usbmodem14301",
+    "board": "arduino:avr:uno",
+    "sketch": "hero_academia.ino"
+}
