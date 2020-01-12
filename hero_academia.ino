@@ -4,9 +4,7 @@
 #define SECOND_VOICE_PIN 5
 #define BREAK 0
 
-
-int mainMelody[] = {
-  // lower todo add pause
+const unsigned short mainMelody[] PROGMEM = {
   BREAK, 15, 8,
   // higher
   NOTE_D5, 1, 8,
@@ -316,7 +314,7 @@ int mainMelody[] = {
   NOTE_A4, 9, 8,
 };
 
-int secondMelody[] = {
+const unsigned short secondMelody[] PROGMEM = {
   NOTE_CS4, 1, 8,
   NOTE_CS4, 1, 8,
   NOTE_E4, 1, 8,
@@ -364,15 +362,15 @@ void playMelody(
   Tone &voice,
   unsigned int &schedule,
   unsigned int &currentIndex,
-  int melody[],
+  const unsigned short melody[],
   unsigned int melodyLenght
 )
 {
   if (now >= schedule)
   {
-    unsigned short note = melody[currentIndex];
-    unsigned short length = melody[currentIndex + 1];
-    unsigned short fraction = melody[currentIndex + 2];
+    unsigned short note = pgm_read_word(&melody[currentIndex]);
+    unsigned short length = pgm_read_word(&melody[currentIndex+1]);
+    unsigned short fraction = pgm_read_word(&melody[currentIndex+2]);
     schedule = now + playNote(voice, note, length, fraction);
     currentIndex = (currentIndex + 3) % melodyLenght;
   }
